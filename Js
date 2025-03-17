@@ -1,0 +1,38 @@
+let objetoEncontrado = false;
+let mensaje = document.getElementById('mensaje');
+
+function iniciarJuego() {
+    objetoEncontrado = false;
+    onclick = "Haz clic en el objeto que aparece en la cuadrícula.";
+    resetearCeldas();
+    mostrarObjetoAleatorio();
+}
+
+function resetearCeldas() {
+    // Elimina la clase 'found' de todas las celdas
+    const celdas = document.querySelectorAll('.cell');
+    celdas.forEach(celda => {
+        celda.classList.remove('found');
+        celda.onclick= ''; // Elimina cualquier texto previo
+        celda.style.pointerEvents = 'auto'; // Vuelve a habilitar la interactividad
+    });
+}
+
+function mostrarObjetoAleatorio() {
+    const celdas = document.querySelectorAll('.cell');
+    const indiceAleatorio = Math.floor(Math.random() * celdas.length);
+    const celdaConObjeto = celdas[indiceAleatorio];
+
+    celdaConObjeto.textContent = '🛑'; // Muestra un objeto en la celda
+    celdaConObjeto.classList.add('found');
+
+    // Agrega un evento a la celda para detectar el clic usando addEventListener
+    celdaConObjeto.addEventListener('click', function () {
+        if (!objetoEncontrado) {
+            objetoEncontrado = true;
+            mensaje.textContent = "¡Has encontrado el objeto!";
+            // Deshabilita el clic en la celda
+            celdaConObjeto.style.pointerEvents = 'none';
+        }
+    });
+}
